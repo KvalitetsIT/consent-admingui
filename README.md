@@ -1,38 +1,19 @@
-# En proxy IdP med samtykke
-Denne IdP kan sættes mellem service providers (SPs) og en identity provider (IdP) med det formål at håndtere brugersamtykke.
+# consent-admingui
+Consent-admingui modulet, der tidligere lå i _consent_ projektet.
 
-Løsningen kan prøves af ved at køre
-```
-mvn clean install (i roden)
-./consent-developent/docker-compose up
-```
+Fra _consent_ projektet: Denne IdP kan sættes mellem service providers (SPs) og en identity provider (IdP) med det formål at håndtere brugersamtykke.
 
-Når alt er startet op kan man tilgå de to apps A og B på URL'er:
+## Test
+I _consent-webgui_ projektet findes et docker compose setup i mappen _consent-compose_ hvorfra hele consent flowet kan testes.
 
-http://localhost:8082/appa/
+## Konfiguration
 
-http://localhost:8084/appb/
-
-Login: hansen/secret987
-
-Administration af samtykke er deployet i docker-compose setuppet på følgende endpoints:
-
-http://localhost:8100/cag/
-
-http://localhost:8099/cwg/
-
-
-# Andre nyttige metadata
-
-Her finder man apps'enes metadata
-http://localhost:8082/appa/saml/metadata
-
-http://localhost:8084/appb/saml/metadata
-
-Her findes consent-sp ens forside
-http://localhost:8092/consentidp/module.php/core/frontpage_welcome.php
-
-
- insert into consent_template (app_id,mime_type,content,friendly_name,notification_subject,version,active,municipality_id)  select app_id,mime_type,content,friendly_name,notification_subject,version,active,573 from consent_template;
-
-mysql> select id, app_id,mime_type,friendly_name,notification_subject,version,active,municipality_id from consent_template;
+| Environment variable | Beskrivelse                                                                                                     | Påkrævet |
+|----------------------|-----------------------------------------------------------------------------------------------------------------|----------|
+| CONSENTSERVICE_URL   | Url til consent-service.                                                                                        | Ja       |
+| CONTEXT              | Context path.                                                                                                   | Ja       |
+| SERVER_PORT          | Server port. Defaulter til 8080.                                                                                | Nej      |
+| LOG_LEVEL            | Log Level til applikation log. Defaulter til INFO.                                                              | Nej      |
+| LOG_LEVEL_FRAMEWORK  | Log level til framework. Defaulter to INFO.                                                                     | Nej      |
+| CORRELATION_ID       | HTTP header til at få correlation id fra. Benyttes til at korrelere log-beskeder. Defaulter til "x-request-id". | Nej      |
+| SERVICE_ID           | Service id til log-beskeder. Defaulter til "consent-admingui".                                                  | Nej      |
